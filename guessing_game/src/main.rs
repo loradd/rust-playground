@@ -3,29 +3,45 @@ use std::cmp::Ordering;
 use std::io;
 
 fn main() {
-    println!("Generating random secret number...");
-    let secret_number = rand::thread_rng().gen_range(1, 101);
+    let secret = secret();
     loop {
-        println!("Please insert your guess...");
-        let mut guess = String::new();
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("Failed to read line...");
-        let guess: u32 = match guess.trim().parse() {
-            Ok(value) => value,
-            Err(_error) => {
-                println!("Bye...");
-                return;
+        match guess() {
+            Err(_) => return,
+            Ok(guess) => if equals(guess, secret) {
+                return
             }
         };
-        println!("You guessed: {}", guess);
-        match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Nope...too small!"),
-            Ordering::Greater => println!("Nope...too big!"),
-            Ordering::Equal => {
-                println!("You Win!");
-                break;
-            }
+    }
+
+}
+
+fn secret() -> u32 {
+    rand::thread_rng().gen_range(1, 101)
+}
+
+fn guess() -> Result<u32, std::num::ParseIntError>{
+    println!("Insert a number from 0 to 100.");
+    let mut guess: String = String::new();
+    io::stdin()
+        .read_line(&mut guess)
+        .expect("Fatal error while reading line");
+    guess.trim().parse()
+}
+
+fn equals(guess: u32, secret_number: u32) -> bool {
+    match guess.cmp(&secret_number) {
+        Ordering::Less => {
+            println!("The secret number is higher.");
+            false
+        },
+        Ordering::Greater => {
+            println!("The secret number is lower.");
+            false
+        },
+        Ordering::Equal => {
+            println!("You Win!");
+            true
         }
     }
 }
+
