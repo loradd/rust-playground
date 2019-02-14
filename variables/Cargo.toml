@@ -1,7 +1,0 @@
-[package]
-name = "variables"
-version = "0.1.0"
-authors = ["Lorenzo Addazi <lorenzo.addazi@rcp-vision.com>"]
-edition = "2018"
-
-[dependencies]
