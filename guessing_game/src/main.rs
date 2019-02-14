@@ -7,10 +7,10 @@ fn main() {
     loop {
         let guessed_number: u32 = match read_user_guess() {
             Ok(guess) => guess,
-            Err(_) => return,
+            Err(_) => break
         };
         if equals(guessed_number, secret_number) {
-            return;
+            break;
         }
     }
 }
