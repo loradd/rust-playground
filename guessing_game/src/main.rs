@@ -3,45 +3,44 @@ use std::cmp::Ordering;
 use std::io;
 
 fn main() {
-    let secret = secret();
+    let secret_number = generate_secret_number();
     loop {
-        match guess() {
+        let guessed_number: u32 = match read_user_guess() {
+            Ok(guess) => guess,
             Err(_) => return,
-            Ok(guess) => if equals(guess, secret) {
-                return
-            }
         };
+        if equals(guessed_number, secret_number) {
+            return;
+        }
     }
-
 }
 
-fn secret() -> u32 {
+fn generate_secret_number() -> u32 {
     rand::thread_rng().gen_range(1, 101)
 }
 
-fn guess() -> Result<u32, std::num::ParseIntError>{
+fn read_user_guess() -> Result<u32, std::num::ParseIntError> {
     println!("Insert a number from 0 to 100.");
-    let mut guess: String = String::new();
+    let mut user_guess: String = String::new();
     io::stdin()
-        .read_line(&mut guess)
+        .read_line(&mut user_guess)
         .expect("Fatal error while reading line");
-    guess.trim().parse()
+    user_guess.trim().parse()
 }
 
-fn equals(guess: u32, secret_number: u32) -> bool {
-    match guess.cmp(&secret_number) {
+fn equals(guessed_number: u32, secret_number: u32) -> bool {
+    match guessed_number.cmp(&secret_number) {
         Ordering::Less => {
             println!("The secret number is higher.");
             false
-        },
+        }
         Ordering::Greater => {
             println!("The secret number is lower.");
             false
-        },
+        }
         Ordering::Equal => {
             println!("You Win!");
             true
         }
     }
 }
-
