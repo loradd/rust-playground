@@ -12,10 +12,10 @@ fn main() {
             .read_line(&mut guess)
             .expect("Failed to read line...");
         let guess: u32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => {
-                println!("The inserted value is not a number...");
-                continue;
+            Ok(value) => value,
+            Err(_error) => {
+                println!("Bye...");
+                return;
             }
         };
         println!("You guessed: {}", guess);
