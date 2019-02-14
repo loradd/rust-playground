@@ -1,0 +1,8 @@
+# compiled files and executables
+/target/
+
+# libraries-only
+#Cargo.lock
+
+# rustfmt backup files
+**/*.rs.bk
