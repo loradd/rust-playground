@@ -21,15 +21,15 @@ fn fibonacci_iterative_naive(n: u8) -> u128 {
         0 => 0,
         1 => 1,
         _ => {
-            let mut f_i: u128 = 0;
-            let mut f_i_1: u128 = 1;
-            let mut f_i_2: u128 = 0;
+            let mut f_n: u128 = 0;
+            let mut f_n_1: u128 = 1;
+            let mut f_n_2: u128 = 0;
             for _ in 1..n {
-                f_i = f_i_1 + f_i_2;
-                f_i_2 = f_i_1;
-                f_i_1 = f_i;
+                f_n = f_n_1 + f_n_2;
+                f_n_2 = f_n_1;
+                f_n_1 = f_n;
             }
-            f_i
+            f_n
         }
     }
 }
