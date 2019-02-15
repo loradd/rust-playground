@@ -1,0 +1,14 @@
+[[package]]
+name = "fahrenheit_to_celsius"
+version = "0.1.0"
+dependencies = [
+ "pseudo 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "pseudo"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[metadata]
+"checksum pseudo 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "a8959099f3826c5fe51dbae28274b95ec045db2e322dc9b552dd577415f98e9b"

@@ -1,0 +1,8 @@
+[package]
+name = "fahrenheit_to_celsius"
+version = "0.1.0"
+authors = ["Lorenzo Addazi <lorenzo.addazi@rcp-vision.com>"]
+edition = "2018"
+
+[dependencies]
+pseudo = "0.2.0"
