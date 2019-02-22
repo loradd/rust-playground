@@ -1,4 +1,5 @@
 use std::io;
+use std::collections::HashMap;
 
 fn main() {
     println!("Insert Fibonacci sequence index");
@@ -10,13 +11,13 @@ fn main() {
         Ok(sequence_index) => println!(
             "Fibonacci[{}]: {}",
             sequence_index,
-            fibonacci(sequence_index)
+            iterative_fibonacci(sequence_index)
         ),
         Err(_) => println!("Illegal Fibonacci sequence index"),
     };
 }
 
-fn fibonacci(n: u8) -> u128 {
+fn iterative_fibonacci(n: u8) -> u128 {
     match n {
         0 => 0,
         1 | 2 => 1,
@@ -32,34 +33,80 @@ fn fibonacci(n: u8) -> u128 {
     }
 }
 
+fn cached_fibonacci(n : u8) -> u128 {
+    let mut cache = HashMap::new();
+    cache.insert(0, 0);
+    cache.insert(1, 1);
+    cached_fibonacci_inner(n, &mut cache)
+}
+
+fn cached_fibonacci_inner(n : u8, mut cache : &mut HashMap<u8, u128>) -> u128 {
+    match cache.get(&n) {
+        Some(&fibonacci_n) => fibonacci_n,
+        None => {
+            let fibonacci_n_1: u128 = cached_fibonacci_inner(n - 1, &mut cache);
+            let fibonacci_n_2: u128 = cached_fibonacci_inner(n - 2, &mut cache);
+            cache.insert(n, fibonacci_n_1 + fibonacci_n_2);
+            fibonacci_n_1 + fibonacci_n_2
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
 
-    use super::fibonacci;
+    use super::iterative_fibonacci;
 
     #[test]
-    fn f_0() {
-        assert_eq!(0, fibonacci(0));
+    fn iterative_fibonacci_0() {
+        assert_eq!(0, iterative_fibonacci(0));
     }
 
     #[test]
-    fn f_1() {
-        assert_eq!(1, fibonacci(1));
+    fn iterative_fibonacci_1() {
+        assert_eq!(1, iterative_fibonacci(1));
     }
 
     #[test]
-    fn f_2() {
-        assert_eq!(1, fibonacci(2));
+    fn iterative_fibonacci_2() {
+        assert_eq!(1, iterative_fibonacci(2));
     }
 
     #[test]
-    fn f_100() {
-        assert_eq!(354224848179261915075, fibonacci(100));
+    fn iterative_fibonacci_100() {
+        assert_eq!(354224848179261915075, iterative_fibonacci(100));
     }
 
     #[test]
-    fn f_160() {
-        assert_eq!(1226132595394188293000174702095995, fibonacci(160));
+    fn iterative_fibonacci_160() {
+        assert_eq!(1226132595394188293000174702095995, cached_fibonacci(160));
+    }
+
+    use super::cached_fibonacci;
+
+    #[test]
+    fn cached_fibonacci_0() {
+        assert_eq!(0, cached_fibonacci(0));
+    }
+
+    #[test]
+    fn cached_fibonacci_1() {
+        assert_eq!(1, cached_fibonacci(1));
+    }
+
+    #[test]
+    fn cached_fibonacci_2() {
+        assert_eq!(1, cached_fibonacci(2));
+    }
+
+    #[test]
+    fn cached_fibonacci_100() {
+        assert_eq!(354224848179261915075, cached_fibonacci(100));
+    }
+
+    #[test]
+    fn cached_fibonacci_160() {
+        assert_eq!(1226132595394188293000174702095995, cached_fibonacci(160));
     }
 
 }
